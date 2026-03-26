@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CartZero — Investor Materials</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --orange: #FF6600;
+      --dark: #0a0a0f;
+      --dark2: #111118;
+      --dark3: #1a1a24;
+      --white: #f0ede8;
+      --gray: #888899;
+      --border: rgba(255,102,0,0.15);
+      --green: #00c851;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--dark);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+    }
+
+    /* PASSWORD GATE */
+    #gate {
+      position: fixed;
+      inset: 0;
+      background: var(--dark);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 24px;
+    }
+
+    .gate-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 64px;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+
+    .gate-logo span { color: var(--orange); }
+
+    .gate-subtitle {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      color: var(--gray);
+      text-transform: uppercase;
+      margin-bottom: 48px;
+    }
+
+    .gate-input-wrap {
+      display: flex;
+      gap: 0;
+      width: 100%;
+      max-width: 360px;
+    }
+
+    .gate-input-wrap input {
+      flex: 1;
+      background: var(--dark3);
+      border: 1px solid var(--border);
+      border-right: none;
+      color: var(--white);
+      font-family: 'DM Mono', monospace;
+      font-size: 14px;
+      padding: 16px 20px;
+      outline: none;
+      border-radius: 2px 0 0 2px;
+      letter-spacing: 0.1em;
+      transition: border-color 0.2s;
+    }
+
+    .gate-input-wrap input:focus {
+      border-color: var(--orange);
+    }
+
+    .gate-input-wrap input::placeholder {
+      color: var(--gray);
+      letter-spacing: 0.05em;
+    }
+
+    .gate-input-wrap button {
+      background: var(--orange);
+      color: var(--dark);
+      border: none;
+      padding: 16px 24px;
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      border-radius: 0 2px 2px 0;
+      font-weight: 500;
+      transition: background 0.2s;
+    }
+
+    .gate-input-wrap button:hover {
+      background: #ff8533;
+    }
+
+    .gate-error {
+      display: none;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: #ff4444;
+      margin-top: 12px;
+      letter-spacing: 0.05em;
+    }
+
+    .gate-back {
+      margin-top: 32px;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--gray);
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      transition: color 0.2s;
+    }
+
+    .gate-back:hover { color: var(--orange); }
+
+    /* MAIN CONTENT */
+    #content {
+      display: none;
+    }
+
+    /* NAV */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10,10,15,0.95);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(12px);
+      padding: 20px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-logo {
+      font-family: 'DM Mono', monospace;
+      font-size: 13px;
+      color: var(--gray);
+      text-decoration: none;
+    }
+
+    .nav-logo span { color: var(--orange); }
+
+    .nav-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: var(--orange);
+      text-transform: uppercase;
+      background: rgba(255,102,0,0.08);
+      border: 1px solid var(--border);
+      padding: 6px 14px;
+      border-radius: 2px;
+    }
+
+    /* HERO */
+    .doc-hero {
+      padding: 80px 48px 60px;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(135deg, var(--dark) 0%, var(--dark2) 100%);
+    }
+
+    .doc-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      color: var(--orange);
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+
+    .doc-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(60px, 8vw, 120px);
+      line-height: 0.9;
+      margin-bottom: 24px;
+    }
+
+    .doc-title span { color: var(--orange); }
+
+    .doc-tagline {
+      font-size: 18px;
+      color: var(--gray);
+      max-width: 560px;
+      line-height: 1.6;
+    }
+
+    .doc-tagline em {
+      color: var(--white);
+      font-style: normal;
+    }
+
+    /* SECTIONS */
+    .section {
+      padding: 72px 48px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section:last-child { border-bottom: none; }
+
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.25em;
+      color: var(--orange);
+      text-transform: uppercase;
+      margin-bottom: 40px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 40px;
+      color: var(--white);
+      margin-bottom: 32px;
+    }
+
+    /* GRID CARDS */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+
+    .card {
+      background: var(--dark3);
+      border: 1px solid var(--border);
+      padding: 32px;
+      border-radius: 4px;
+      transition: border-color 0.3s;
+    }
+
+    .card:hover { border-color: rgba(255,102,0,0.4); }
+
+    .card-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: var(--orange);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .card-number {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 48px;
+      color: var(--white);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .card-number span { color: var(--orange); }
+
+    .card-desc {
+      font-size: 13px;
+      color: var(--gray);
+      line-height: 1.6;
+    }
+
+    .card-title {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--white);
+      margin-bottom: 12px;
+    }
+
+    /* TABLE */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .data-table th {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      color: var(--orange);
+      text-transform: uppercase;
+      text-align: left;
+      padding: 12px 16px;
+      background: rgba(255,102,0,0.05);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .data-table td {
+      padding: 14px 16px;
+      color: var(--gray);
+      border-bottom: 1px solid rgba(255,102,0,0.06);
+      line-height: 1.5;
+    }
+
+    .data-table tr:last-child td { border-bottom: none; }
+
+    .data-table tr:hover td { background: rgba(255,102,0,0.03); color: var(--white); }
+
+    .data-table .highlight td {
+      color: var(--white);
+      background: rgba(255,102,0,0.05);
+    }
+
+    .data-table .total td {
+      color: var(--orange);
+      font-weight: 500;
+      background: rgba(255,102,0,0.08);
+      border-top: 1px solid var(--border);
+    }
+
+    td.orange { color: var(--orange); font-weight: 500; }
+    td.green { color: var(--green); font-weight: 500; }
+    td.red { color: #ff4444; }
+
+    /* BODY TEXT */
+    .body-text {
+      font-size: 15px;
+      color: var(--gray);
+      line-height: 1.8;
+      max-width: 720px;
+    }
+
+    .body-text strong { color: var(--white); font-weight: 500; }
+
+    /* FOUNDER BLOCK */
+    .founder-block {
+      background: var(--dark3);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--orange);
+      padding: 40px;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .founder-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 36px;
+      color: var(--white);
+      margin-bottom: 4px;
+    }
+
+    .founder-role {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      color: var(--orange);
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-top: 32px;
+    }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .timeline-year {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--orange);
+      letter-spacing: 0.1em;
+      padding-top: 2px;
+    }
+
+    .timeline-content {
+      font-size: 14px;
+      color: var(--gray);
+      line-height: 1.6;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(255,102,0,0.06);
+    }
+
+    .timeline-content strong { color: var(--white); }
+
+    .timeline-item:last-child .timeline-content { border-bottom: none; }
+
+    /* RISK TABLE */
+    .risk-high { color: #ff4444; }
+    .risk-med { color: #ffaa00; }
+    .risk-low { color: var(--green); }
+
+    /* VERDICT */
+    .verdict-box {
+      background: rgba(255,102,0,0.05);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--orange);
+      padding: 32px 40px;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .verdict-score {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 80px;
+      color: var(--orange);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .verdict-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      color: var(--gray);
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+
+    /* ROADMAP */
+    .roadmap {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .roadmap-phase {
+      background: var(--dark3);
+      padding: 32px;
+    }
+
+    .roadmap-phase:first-child { border-radius: 4px 0 0 4px; }
+    .roadmap-phase:last-child { border-radius: 0 4px 4px 0; }
+
+    .roadmap-gen {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 48px;
+      color: var(--orange);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .roadmap-year {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      color: var(--gray);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .roadmap-title {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--white);
+      margin-bottom: 12px;
+    }
+
+    .roadmap-items {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .roadmap-items li {
+      font-size: 13px;
+      color: var(--gray);
+      padding-left: 16px;
+      position: relative;
+      line-height: 1.5;
+    }
+
+    .roadmap-items li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--orange);
+      font-size: 11px;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      nav, .doc-hero, .section { padding-left: 24px; padding-right: 24px; }
+      .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+      .roadmap { grid-template-columns: 1fr; }
+      .timeline-item { grid-template-columns: 80px 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PASSWORD GATE -->
+  <div id="gate">
+    <div class="gate-logo">Cart<span>Zero.</span></div>
+    <div class="gate-subtitle">Investor Materials · Confidential</div>
+    <div class="gate-input-wrap">
+      <input type="password" id="pwInput" placeholder="Enter access code" onkeydown="if(event.key==='Enter')checkPw()">
+      <button onclick="checkPw()">ENTER →</button>
+    </div>
+    <div class="gate-error" id="gateError">✗ Incorrect access code</div>
+    <a href="index.html" class="gate-back">← Back to main site</a>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div id="content">
+
+    <nav>
+      <a href="index.html" class="nav-logo">be<span>-</span>eclectic<span>.com</span></a>
+      <span class="nav-tag">Confidential · Investor Access</span>
+    </nav>
+
+    <!-- HERO -->
+    <div class="doc-hero">
+      <div class="doc-eyebrow">Y Combinator Application · Summer 2026 · Confidential</div>
+      <h1 class="doc-title">Cart<span>Zero.</span></h1>
+      <p class="doc-tagline">
+        <em>Clean energy battery swap service for NYC food carts.</em><br>
+        23,000 generators. $41M ARR opportunity. The city wants it done.
+      </p>
+    </div>
+
+    <!-- MARKET -->
+    <div class="section">
+      <div class="section-label">01 · Market Opportunity</div>
+      <div class="grid-4" style="margin-bottom:32px;">
+        <div class="card">
+          <div class="card-label">Beachhead ARR</div>
+          <div class="card-number">$9<span>.2M</span></div>
+          <div class="card-desc">5,100 legal permits × $150/mo</div>
+        </div>
+        <div class="card">
+          <div class="card-label">NYC Full Market</div>
+          <div class="card-number">$41<span>M</span></div>
+          <div class="card-desc">23,000 vendors × $150/mo avg</div>
+        </div>
+        <div class="card">
+          <div class="card-label">Top 10 US Cities</div>
+          <div class="card-number">$900<span>M</span></div>
+          <div class="card-desc">~500,000 vendors nationwide</div>
+        </div>
+        <div class="card">
+          <div class="card-label">Global TAM</div>
+          <div class="card-number">$5<span>B+</span></div>
+          <div class="card-desc">London, Paris, Tokyo, Mumbai</div>
+        </div>
+      </div>
+      <p class="body-text">
+        <strong>Local Law 18</strong> adds 11,000 new NYC permits by 2031 — the market doubles without CartZero doing anything.
+        The Strait of Hormuz crisis (Feb 2026) locked gasoline above $3.34/gal through 2027.
+        Vendor energy cost is now structural, not cyclical. <strong>The window is now.</strong>
+      </p>
+    </div>
+
+    <!-- BUSINESS MODEL -->
+    <div class="section">
+      <div class="section-label">02 · Business Model</div>
+      <div class="section-title">Subscription Tiers</div>
+      <table class="data-table" style="margin-bottom:40px;">
+        <thead>
+          <tr>
+            <th>Tier</th>
+            <th>Cart Type</th>
+            <th>Price/Month</th>
+            <th>Vendor Saves/Year</th>
+            <th>CAPEX/Cart</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>🥉 Bronze</td><td>Micro (hot dog, pretzel)</td><td class="orange">$99</td><td>~$3,600</td><td>~$1,700</td></tr>
+          <tr><td>🥈 Silver</td><td>Small (halal, coffee)</td><td class="orange">$149</td><td>~$5,400</td><td>~$2,700</td></tr>
+          <tr class="highlight"><td>🥇 Gold</td><td>Medium (burger, falafel)</td><td class="orange">$199</td><td>~$8,400</td><td>~$5,400</td></tr>
+          <tr><td>💎 Platinum</td><td>Large (BBQ, grill)</td><td class="orange">$249</td><td>~$16,000</td><td>~$7,300</td></tr>
+        </tbody>
+      </table>
+
+      <div class="section-title">Gross Margin — Route Density is the Lever</div>
+      <table class="data-table">
+        <thead>
+          <tr><th>Scenario</th><th>Carts/Van</th><th>Gross Margin (Gold)</th><th>Note</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Pilot Phase</td><td>10</td><td class="red">Negative</td><td>Expected — proving model</td></tr>
+          <tr><td>Early Scale</td><td>30</td><td>~0%</td><td>Break-even</td></tr>
+          <tr class="highlight"><td>Target Scale</td><td>60</td><td class="green">~20%</td><td>Manhattan clusters</td></tr>
+          <tr><td>Optimized</td><td>80</td><td class="green">~26%</td><td>Mature route</td></tr>
+          <tr class="total"><td>Bronze @ Scale</td><td>80</td><td class="green">~40%</td><td>Lower CAPEX, lighter swap</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- TECHNOLOGY -->
+    <div class="section">
+      <div class="section-label">03 · Technology Stack</div>
+      <div class="grid-2" style="margin-bottom:32px;">
+        <div class="card">
+          <div class="card-label">Core CPMS</div>
+          <div class="card-title">AMPECO (AWS)</div>
+          <div class="card-desc">OCPP-based Charge Point Management System. ToU-optimized overnight charging. Predictive swap scheduling. Remote fleet monitoring. Founder deploys this professionally today at 25,000 charge points.</div>
+        </div>
+        <div class="card">
+          <div class="card-label">Battery IoT Layer</div>
+          <div class="card-title">Smart BMS + LTE-M</div>
+          <div class="card-desc">Smart BMS with integrated IoT gateway. OCPP communication to AMPECO. 1NCE SIM cards (500MB lifetime, ~$10/SIM). Real-time SoC, temperature, and cell voltage telemetry.</div>
+        </div>
+        <div class="card">
+          <div class="card-label">Green Energy</div>
+          <div class="card-title">ESCO + REC Retirement</div>
+          <div class="card-desc">100% renewable electricity via certified ESCO. REC retirement through NYGATS. Genuine zero-carbon claim — verified, not greenwashing. +$0.01/kWh vs standard rate.</div>
+        </div>
+        <div class="card">
+          <div class="card-label">Operations Stack</div>
+          <div class="card-title">Make · Airtable · Salesforce</div>
+          <div class="card-desc">Workflow automation, fleet management, CRM — the identical stack the founder deploys professionally today. No custom code required for MVP.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OPERATIONAL CYCLE -->
+    <div class="section">
+      <div class="section-label">04 · 24-Hour Operational Cycle</div>
+      <table class="data-table">
+        <thead>
+          <tr><th>Phase</th><th>Time</th><th>Activity</th><th>Con Edison ToU</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Charging</td><td>22:00–06:00</td><td>AMPECO triggers off-peak charging. Fully automated.</td><td class="green">$0.08/kWh ✓</td></tr>
+          <tr><td>Van departs</td><td>05:15</td><td>Pre-rush window. 24mph average NYC speed.</td><td>—</td></tr>
+          <tr><td>Morning swap</td><td>05:30–07:00</td><td>Delivery round 1 — 20 carts before rush hour.</td><td>—</td></tr>
+          <tr><td>Rush standstill</td><td>07:00–10:00</td><td>Van offline. No swaps planned. 4.8mph Midtown.</td><td>—</td></tr>
+          <tr><td>Midday swap</td><td>10:30–13:30</td><td>AMPECO-triggered — only carts with SoC &lt;30%.</td><td>—</td></tr>
+          <tr><td>Super-Peak</td><td>14:00–18:00</td><td>AMPECO blocks all hub charging automatically.</td><td class="red">$1.10/kWh ✗</td></tr>
+          <tr class="highlight"><td>Commissary</td><td>20:00–22:00</td><td>Vendors' mandatory daily visit = CartZero battery return. Zero separate pickup route needed.</td><td>—</td></tr>
+          <tr><td>Cycle repeats</td><td>22:00</td><td>Off-peak charging restarts. 365 days/year.</td><td class="green">$0.08/kWh ✓</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- PRODUCT ROADMAP -->
+    <div class="section">
+      <div class="section-label">05 · Product Roadmap</div>
+      <div class="roadmap">
+        <div class="roadmap-phase">
+          <div class="roadmap-gen">Gen 1</div>
+          <div class="roadmap-year">2026–2027 · MVP</div>
+          <div class="roadmap-title">Battery Swap as a Service</div>
+          <ul class="roadmap-items">
+            <li>LiFePO4 retrofit + AC inverter</li>
+            <li>Daily delivery, AMPECO monitoring</li>
+            <li>OCPP + LTE-M IoT per pack</li>
+            <li>ESCO 100% renewable charging</li>
+            <li>Target: 500 carts, $1M ARR</li>
+            <li>Margin: ~20% at 60 carts/van</li>
+          </ul>
+        </div>
+        <div class="roadmap-phase">
+          <div class="roadmap-gen">Gen 2</div>
+          <div class="roadmap-year">2027–2028 · Efficiency</div>
+          <div class="roadmap-title">Partial DC + Solar</div>
+          <ul class="roadmap-items">
+            <li>DC fridge, LED, pump, POS</li>
+            <li>60–100W roof solar panel</li>
+            <li>−25% battery demand</li>
+            <li>Margin improves to ~65%</li>
+            <li>Target: 5,000 carts, $10M ARR</li>
+            <li>Top 3 US cities</li>
+          </ul>
+        </div>
+        <div class="roadmap-phase">
+          <div class="roadmap-gen">Gen 3</div>
+          <div class="roadmap-year">2029+ · Native</div>
+          <div class="roadmap-title">DC-Native CartZero Cart</div>
+          <ul class="roadmap-items">
+            <li>Full DC architecture, no inverter</li>
+            <li>Integrated 150–200W solar</li>
+            <li>Proprietary swap mechanism</li>
+            <li>Hardware IP moat</li>
+            <li>OEM partnership / own manufacturing</li>
+            <li>Global rollout</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOUNDER -->
+    <div class="section">
+      <div class="section-label">06 · Founder</div>
+      <div class="founder-block">
+        <div class="founder-name">Bodo Becker</div>
+        <div class="founder-role">Founder & CEO · Climate Reality Leader · 100% Equity</div>
+        <p class="body-text" style="margin-bottom:0;">
+          15 years building clean energy infrastructure across three continents.
+          Trained by Al Gore (Rome, 2024). German Solar Prize 2019.
+          Currently deploying AMPECO at 25,000 charge points — the identical stack CartZero runs on.
+        </p>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-year">1992–1998</div>
+            <div class="timeline-content"><strong>German Air Force</strong> — Electronic warfare, NATO missions Bosnia (IFOR). Bundeswehr Service Medal.</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-year">2000–2008</div>
+            <div class="timeline-content"><strong>Lufthansa CityLine</strong> — Fleet management, 52 aircraft, zero-defect maintenance systems.</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-year">2011–2015</div>
+            <div class="timeline-content"><strong>TSK Flagsol / DESERTEC</strong> — 90 MWel CSP operations, Spain + Egypt. Andasol 3: 500,000 people on 100% renewable. Two Egyptian coups, zero missed milestones.</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-year">2015–2019</div>
+            <div class="timeline-content"><strong>Mainova AG</strong> — Built Germany's 2nd-largest tenant solar program from zero. 4.5 MWp, 3,200 households. <strong>German Solar Prize 2019 (EUROSOLAR).</strong></div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-year">2019–2024</div>
+            <div class="timeline-content"><strong>epilot GmbH</strong> — Head of Operations. 30→100+ utilities (+233%). AWS migration, ISO 27001 via TÜV Rheinland.</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-year">2024–</div>
+            <div class="timeline-content"><strong>gruengebaut | CartZero</strong> — CPMS consulting (Chargemaker/ista, 25K charge points). CartZero field research NYC Aug/Sep 2024 + 2025.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DUE DILIGENCE -->
+    <div class="section">
+      <div class="section-label">07 · Due Diligence Summary</div>
+      <div class="grid-2" style="margin-bottom:40px;">
+        <div class="verdict-box">
+          <div class="verdict-score">7.9</div>
+          <div class="verdict-label">/ 10 · Investable with known risks</div>
+          <p class="body-text" style="font-size:14px;">
+            Strong market, validated demand, exceptional founder domain expertise.
+            Primary risk: route density achievement timeline.
+            <strong>All risks are known and manageable.</strong>
+          </p>
+        </div>
+        <table class="data-table">
+          <thead><tr><th>Category</th><th>Score</th></tr></thead>
+          <tbody>
+            <tr><td>Market Size & Timing</td><td class="green">9/10</td></tr>
+            <tr><td>Technical Feasibility</td><td class="green">7/10</td></tr>
+            <tr><td>Financial Model</td><td>6/10</td></tr>
+            <tr><td>Competition</td><td class="green">8/10</td></tr>
+            <tr><td>Regulatory</td><td class="green">8/10</td></tr>
+            <tr><td>Team</td><td class="green">7/10</td></tr>
+            <tr><td>Scalability</td><td class="green">8/10</td></tr>
+            <tr class="total"><td>Mission / Impact</td><td class="orange">10/10</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="section-title">Key Risks</div>
+      <table class="data-table">
+        <thead><tr><th>Risk</th><th>Probability</th><th>Impact</th><th>Mitigation</th></tr></thead>
+        <tbody>
+          <tr><td>Route density not achieved</td><td class="risk-med">Medium</td><td class="risk-high">High</td><td>Pilot data before scale. Price adjustment lever.</td></tr>
+          <tr><td>PopWheels pivot to food carts</td><td class="risk-low">Low</td><td class="risk-high">High</td><td>Speed + commissary moat + city deal.</td></tr>
+          <tr><td>China tariffs on LiFePO4</td><td class="risk-med">Medium</td><td class="risk-med">Medium</td><td>EU supplier backup. Co-founder China contacts.</td></tr>
+          <tr><td>Vendor adoption slow</td><td class="risk-med">Medium</td><td class="risk-high">High</td><td>ROI calculator. $16K/year savings speaks itself.</td></tr>
+          <tr><td>Winter extra swaps OPEX</td><td class="risk-med">Medium</td><td class="risk-low">Low</td><td>Seasonal pricing. Pre-warmed batteries. BMS cold mode.</td></tr>
+          <tr><td>No tech co-founder</td><td class="risk-med">Medium</td><td class="risk-med">Medium</td><td>2 candidates in conversation. Contracted engineering for MVP.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- CONTACT -->
+    <div class="section">
+      <div class="section-label">08 · Contact</div>
+      <div class="card" style="max-width:480px;">
+        <div class="card-label">Bodo Becker · Founder & CEO</div>
+        <div class="card-title" style="font-size:20px; margin-bottom:20px;">Let's talk.</div>
+        <p class="card-desc" style="margin-bottom:24px;">
+          Climate Reality Leader · German Solar Prize 2019 · DESERTEC<br>
+          Troisdorf, Germany · NYC annually
+        </p>
+        <a href="mailto:bodo@be-eclectic.com" class="btn btn-primary" style="display:inline-flex; text-decoration:none; background:var(--orange); color:var(--dark); padding:14px 28px; font-family:'DM Mono',monospace; font-size:12px; letter-spacing:0.1em; border-radius:2px;">
+          bodo@be-eclectic.com →
+        </a>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer style="border-top:1px solid var(--border); padding:32px 48px; display:flex; justify-content:space-between; align-items:center;">
+      <div style="font-family:'DM Mono',monospace; font-size:11px; color:var(--gray);">
+        CartZero · be-eclectic.com · Confidential
+      </div>
+      <div style="font-family:'DM Mono',monospace; font-size:11px; color:var(--gray);">
+        YC Summer 2026 · Deadline May 4
+      </div>
+    </footer>
+
+  </div><!-- end #content -->
+
+  <script>
+    // CHANGE THIS PASSWORD
+    const PASSWORD = "cartzero2026";
+
+    function checkPw() {
+      const val = document.getElementById('pwInput').value;
+      if (val === PASSWORD) {
+        document.getElementById('gate').style.display = 'none';
+        document.getElementById('content').style.display = 'block';
+        sessionStorage.setItem('cz_auth', '1');
+      } else {
+        document.getElementById('gateError').style.display = 'block';
+        document.getElementById('pwInput').value = '';
+        document.getElementById('pwInput').focus();
+      }
+    }
+
+    // Auto-unlock if already authenticated in session
+    if (sessionStorage.getItem('cz_auth') === '1') {
+      document.getElementById('gate').style.display = 'none';
+      document.getElementById('content').style.display = 'block';
+    }
+  </script>
+
+</body>
+</html>
