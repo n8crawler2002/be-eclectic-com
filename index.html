@@ -492,11 +492,17 @@
         Be among the first NYC food cart vendors to go generator-free.
         No upfront cost. Just a cleaner, quieter, cheaper operation.
       </p>
-      <div class="input-group">
-        <input type="email" id="vendorEmail" placeholder="your@email.com">
-        <button onclick="handleSubmit('vendor')">JOIN →</button>
-      </div>
-      <p class="success-msg" id="vendorSuccess">✓ You're on the list. We'll be in touch.</p>
+      <form action="https://formspree.io/f/maqlngkv" method="POST" id="vendorForm">
+        <input type="hidden" name="type" value="vendor">
+        <div class="input-group" style="margin-bottom:10px;">
+          <input type="text" name="name" placeholder="Your name" required style="flex:1; background:var(--dark); border:1px solid var(--border); border-right:none; color:var(--white); font-family:'DM Sans',sans-serif; font-size:14px; padding:14px 20px; outline:none; border-radius:2px 0 0 2px; transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--orange)'" onblur="this.style.borderColor='var(--border)'">
+        </div>
+        <div class="input-group">
+          <input type="email" name="email" id="vendorEmail" placeholder="your@email.com" required>
+          <button type="submit">JOIN →</button>
+        </div>
+        <p id="vendorSuccess" style="display:none; font-family:'DM Mono',monospace; font-size:12px; color:var(--orange); margin-top:12px; letter-spacing:0.05em;">✓ You're on the list. We'll be in touch.</p>
+      </form>
     </div>
 
     <!-- INVESTOR -->
@@ -537,20 +543,34 @@
       document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
     });
 
-    // Email capture
-    function handleSubmit(type) {
-      const input = document.getElementById(type + 'Email');
-      const success = document.getElementById(type + 'Success');
-      if (input && input.value.includes('@')) {
-        success.style.display = 'block';
-        input.value = '';
-      }
+    // Vendor Formspree handler
+    const vendorForm = document.getElementById('vendorForm');
+    if (vendorForm) {
+      vendorForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = vendorForm.querySelector('button[type="submit"]');
+        btn.textContent = '...';
+        btn.disabled = true;
+        try {
+          const res = await fetch(vendorForm.action, {
+            method: 'POST',
+            body: new FormData(vendorForm),
+            headers: { 'Accept': 'application/json' }
+          });
+          if (res.ok) {
+            vendorForm.reset();
+            document.getElementById('vendorSuccess').style.display = 'block';
+            btn.textContent = '✓';
+          } else {
+            btn.textContent = 'JOIN →';
+            btn.disabled = false;
+          }
+        } catch {
+          btn.textContent = 'JOIN →';
+          btn.disabled = false;
+        }
+      });
     }
-
-    // Enter key for vendor form
-    document.getElementById('vendorEmail')?.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') handleSubmit('vendor');
-    });
   </script>
 
 </body>
