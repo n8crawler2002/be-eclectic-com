@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CartZero — Investor Materials</title>
   <meta name="robots" content="noindex, nofollow">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%230a0a0f'/%3E%3Ctext x='16' y='22' font-family='Arial Black,sans-serif' font-size='14' font-weight='900' fill='%23FF6600' text-anchor='middle'%3ECZ%3C/text%3E%3C/svg%3E">  <link rel="stylesheet" href="fonts.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%230a0a0f'/%3E%3Ctext x='16' y='22' font-family='Arial Black,sans-serif' font-size='14' font-weight='900' fill='%23FF6600' text-anchor='middle'%3ECZ%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="fonts.css">
   <style>
     :root {
       --orange: #FF6600;
@@ -658,8 +659,8 @@
     <div class="card-label">Bodo Becker · Founder & CEO</div>
     <div class="card-title" style="font-size:24px; margin-bottom:8px;">Let's talk.</div>
     <p class="card-desc" style="margin-bottom:24px;">Climate Reality Leader · German Solar Prize 2019<br>Troisdorf, Germany · Manhattan annually</p>
-    <a href="/cdn-cgi/l/email-protection#f1939e959eb19394dc94929d9492859892df929e9c" style="display:inline-flex; align-items:center; gap:10px; background:var(--orange); color:var(--dark); padding:14px 28px; font-family:'DM Mono',monospace; font-size:12px; letter-spacing:0.1em; border-radius:2px; text-decoration:none; font-weight:500; margin-bottom:16px;">
-      <span class="__cf_email__" data-cfemail="88eae7ece7c8eaeda5edebe4edebfce1eba6ebe7e5">[email&#160;protected]</span> →
+    <a href="mailto:bodo@be-eclectic.com" style="display:inline-flex; align-items:center; gap:10px; background:var(--orange); color:var(--dark); padding:14px 28px; font-family:'DM Mono',monospace; font-size:12px; letter-spacing:0.1em; border-radius:2px; text-decoration:none; font-weight:500; margin-bottom:16px;">
+      <span class="__cf_email__" data-cfemail="ceaca1aaa18eacabe3abada2abadbaa7ade0ada1a3">[email&#160;protected]</span> →
     </a>
     <br>
     <a href="https://www.linkedin.com/in/bodo-becker-climate-leader/" target="_blank" style="display:inline-flex; align-items:center; gap:8px; color:var(--orange); font-family:'DM Mono',monospace; font-size:11px; text-decoration:none; letter-spacing:0.1em; margin-top:8px;">
@@ -680,7 +681,7 @@
     D-53842 Troisdorf<br>
     GERMANY</p>
     <p class="body-text" style="margin-bottom:8px;"><strong>Kontakt</strong><br>
-    E-Mail: <a href="/cdn-cgi/l/email-protection#7a18151e153a181f571f19161f190e131954191517" style="color:var(--orange); text-decoration:none;"><span class="__cf_email__" data-cfemail="01636e656e4163642c64626d64627568622f626e6c">[email&#160;protected]</span></a></p>
+    E-Mail: <a href="mailto:bodo@be-eclectic.com" style="color:var(--orange);text-decoration:none;">bodo@be-eclectic.com</a></p>
     <p class="body-text" style="margin-bottom:8px;"><strong>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV</strong><br>
     Bodo Becker (Anschrift wie oben)</p>
     <p class="body-text" style="font-size:13px; color:var(--gray); margin-top:16px;">Diese Website enthält vertrauliche Investoreninformationen. Die Inhalte sind nicht für die Öffentlichkeit bestimmt. Unbefugte Weitergabe ist untersagt. / This page contains confidential investor materials. Content is not intended for the general public. Unauthorized distribution is prohibited.</p>
@@ -757,4 +758,19 @@
           });
           if (res.ok) {
             form.reset();
-        
+            document.getElementById('formSuccess').style.display = 'block';
+            btn.textContent = 'SENT ✓';
+          } else {
+            btn.textContent = 'ERROR — TRY AGAIN';
+            btn.disabled = false;
+          }
+        } catch {
+          btn.textContent = 'ERROR — TRY AGAIN';
+          btn.disabled = false;
+        }
+      });
+    }
+</script>
+
+</body>
+</html>
